@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineNest - Ultimate Movie Platform</title>
+    <title>CineNest - Premium Movie Experience</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Professional Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <h2>🎬 CineNest</h2>
+                <h2>🎬 <span class="brand">CineNest</span></h2>
             </div>
             <div class="nav-search">
-                <input type="text" id="searchInput" placeholder="Search movies...">
-                <button onclick="searchMovies()">🔍</button>
+                <input type="text" id="searchInput" placeholder="Search movies, TV shows..." onkeypress="handleSearch(event)">
+                <button onclick="searchMovies()">🔍 Search</button>
             </div>
             <div class="nav-links">
-                <a href="#home">Home</a>
+                <a href="#home" class="active">Home</a>
                 <a href="#movies">Movies</a>
                 <a href="#trending">Trending</a>
                 <a href="#bollywood">Bollywood</a>
-                <button class="login-btn" onclick="openLogin()">Login</button>
+                <button class="login-btn" onclick="openLogin()">Sign In</button>
             </div>
         </div>
     </nav>
@@ -32,45 +32,46 @@
     <section class="hero" id="home">
         <div class="hero-content">
             <h1>Unlimited Movies, TV Shows & More</h1>
-            <p>Watch anywhere. Cancel anytime.</p>
+            <p>Stream anywhere. Cancel anytime. Premium experience.</p>
             <div class="hero-buttons">
                 <button class="btn-primary" onclick="getStarted()">Get Started</button>
-                <button class="btn-secondary" onclick="learnMore()">Learn More</button>
+                <button class="btn-secondary" onclick="watchTrailer()">Watch Trailer</button>
             </div>
         </div>
     </section>
 
-    <!-- Movies Section -->
+    <!-- Trending Movies Section -->
+    <section class="movies-section" id="trending">
+        <h2>🔥 Trending Now</h2>
+        <div class="movies-grid" id="trendingMovies">
+            <div class="loading">Loading trending movies...</div>
+        </div>
+    </section>
+
+    <!-- Bollywood Movies Section -->
+    <section class="movies-section" id="bollywood">
+        <h2>🎭 Bollywood Hits</h2>
+        <div class="movies-grid" id="bollywoodMovies">
+            <div class="loading">Loading Bollywood movies...</div>
+        </div>
+    </section>
+
+    <!-- Hollywood Movies Section -->
     <section class="movies-section" id="movies">
-        <h2>Popular Movies</h2>
-        <div class="movies-grid" id="moviesGrid">
-            <!-- Movies will load here dynamically -->
-            <div class="loading">Loading movies...</div>
+        <h2>🎬 Hollywood Blockbusters</h2>
+        <div class="movies-grid" id="hollywoodMovies">
+            <div class="loading">Loading Hollywood movies...</div>
         </div>
     </section>
 
-    <!-- Earning Section -->
-    <section class="earning-section">
-        <h2>Watch & Earn</h2>
-        <div class="platforms-grid">
-            <div class="platform-card" onclick="watchOnYouTube()">
-                <h3>🎥 YouTube Movies</h3>
-                <p>Watch FREE + Earn Rewards</p>
-            </div>
-            <div class="platform-card" onclick="watchOnNetflix()">
-                <h3>🅱 Netflix</h3>
-                <p>Get 30% Commission</p>
-            </div>
-            <div class="platform-card" onclick="watchOnHotstar()">
-                <h3>🔥 Hotstar</h3>
-                <p>Earn Referral Bonus</p>
-            </div>
-            <div class="platform-card" onclick="watchOnAmazon()">
-                <h3>📦 Amazon Prime</h3>
-                <p>Affiliate Earnings</p>
-            </div>
+    <!-- Secret Admin Section - Only you can access -->
+    <div class="admin-section">
+        <div class="secret-admin">
+            <h3>🔧 Admin Dashboard</h3>
+            <p>Secret URL: /admin.html</p>
+            <button onclick="openAdmin()" style="background: #000; color: #e50914; border: 2px solid #e50914; padding: 10px 20px; margin: 5px;">Open Admin Panel</button>
         </div>
-    </section>
+    </div>
 
     <script src="app.js"></script>
     <script src="tmdb-api.js"></script>
