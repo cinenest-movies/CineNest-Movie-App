@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineNest - Ultimate Movie Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>🎬 CineNest</h2>
+            </div>
+            <div class="nav-search">
+                <input type="text" id="searchInput" placeholder="Search movies...">
+                <button onclick="searchMovies()">🔍</button>
+            </div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#movies">Movies</a>
+                <a href="#trending">Trending</a>
+                <a href="#bollywood">Bollywood</a>
+                <button class="login-btn" onclick="openLogin()">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Unlimited Movies, TV Shows & More</h1>
+            <p>Watch anywhere. Cancel anytime.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="getStarted()">Get Started</button>
+                <button class="btn-secondary" onclick="learnMore()">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Movies Section -->
+    <section class="movies-section" id="movies">
+        <h2>Popular Movies</h2>
+        <div class="movies-grid" id="moviesGrid">
+            <!-- Movies will load here dynamically -->
+            <div class="loading">Loading movies...</div>
+        </div>
+    </section>
+
+    <!-- Earning Section -->
+    <section class="earning-section">
+        <h2>Watch & Earn</h2>
+        <div class="platforms-grid">
+            <div class="platform-card" onclick="watchOnYouTube()">
+                <h3>🎥 YouTube Movies</h3>
+                <p>Watch FREE + Earn Rewards</p>
+            </div>
+            <div class="platform-card" onclick="watchOnNetflix()">
+                <h3>🅱 Netflix</h3>
+                <p>Get 30% Commission</p>
+            </div>
+            <div class="platform-card" onclick="watchOnHotstar()">
+                <h3>🔥 Hotstar</h3>
+                <p>Earn Referral Bonus</p>
+            </div>
+            <div class="platform-card" onclick="watchOnAmazon()">
+                <h3>📦 Amazon Prime</h3>
+                <p>Affiliate Earnings</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+    <script src="tmdb-api.js"></script>
+</body>
+</html>
