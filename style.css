@@ -1,4 +1,4 @@
-/* CineNest - Netflix Style Dark Theme */
+/* CineNest - Professional Netflix Style */
 * {
     margin: 0;
     padding: 0;
@@ -12,15 +12,15 @@ body {
     line-height: 1.6;
 }
 
-/* Navigation Bar */
+/* Professional Navigation */
 .navbar {
-    background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
-    padding: 20px 50px;
+    background: rgba(0,0,0,0.9);
+    padding: 15px 50px;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
-    transition: background 0.3s;
+    border-bottom: 2px solid #e50914;
 }
 
 .nav-container {
@@ -33,8 +33,16 @@ body {
 
 .nav-logo h2 {
     color: #e50914;
-    font-size: 28px;
+    font-size: 32px;
     font-weight: bold;
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+.brand {
+    background: linear-gradient(45deg, #e50914, #f05638);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
 }
 
 .nav-search {
@@ -43,21 +51,23 @@ body {
 }
 
 .nav-search input {
-    padding: 10px 15px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 25px;
     background: rgba(255,255,255,0.1);
     color: white;
-    width: 300px;
+    width: 400px;
+    font-size: 16px;
 }
 
 .nav-search button {
     background: #e50914;
     border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
+    padding: 12px 20px;
+    border-radius: 25px;
     color: white;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .nav-links {
@@ -70,6 +80,7 @@ body {
     color: white;
     text-decoration: none;
     transition: color 0.3s;
+    font-weight: 500;
 }
 
 .nav-links a:hover {
@@ -80,20 +91,22 @@ body {
     background: #e50914;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 25px;
+    border-radius: 25px;
     cursor: pointer;
+    font-weight: bold;
     transition: background 0.3s;
 }
 
 .login-btn:hover {
     background: #f40612;
+    transform: translateY(-2px);
 }
 
 /* Hero Section */
 .hero {
     height: 80vh;
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
                 url('https://image.tmdb.org/t/p/w1280/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg');
     background-size: cover;
     background-position: center;
@@ -102,18 +115,21 @@ body {
     justify-content: center;
     text-align: center;
     padding: 0 20px;
+    margin-top: 70px;
 }
 
 .hero-content h1 {
-    font-size: 48px;
+    font-size: 52px;
     margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+    font-weight: 800;
 }
 
 .hero-content p {
     font-size: 24px;
     margin-bottom: 30px;
     opacity: 0.9;
+    font-weight: 300;
 }
 
 .hero-buttons {
@@ -125,31 +141,35 @@ body {
 .btn-primary {
     background: #e50914;
     color: white;
-    padding: 15px 30px;
+    padding: 15px 35px;
     border: none;
     border-radius: 5px;
     font-size: 18px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s;
+    font-weight: bold;
 }
 
 .btn-primary:hover {
     background: #f40612;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(229,9,20,0.3);
 }
 
 .btn-secondary {
     background: transparent;
     color: white;
-    padding: 15px 30px;
+    padding: 15px 35px;
     border: 2px solid white;
     border-radius: 5px;
     font-size: 18px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s;
 }
 
 .btn-secondary:hover {
     background: rgba(255,255,255,0.1);
+    transform: translateY(-3px);
 }
 
 /* Movies Section */
@@ -160,88 +180,73 @@ body {
 }
 
 .movies-section h2 {
-    font-size: 32px;
+    font-size: 36px;
     margin-bottom: 30px;
     color: #e50914;
+    font-weight: 700;
 }
 
 .movies-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
 }
 
 .movie-card {
     background: #181818;
     border-radius: 10px;
     overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: all 0.3s ease;
     cursor: pointer;
+    position: relative;
 }
 
 .movie-card:hover {
     transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(229,9,20,0.3);
+    box-shadow: 0 15px 30px rgba(229,9,20,0.4);
 }
 
 .movie-poster {
     width: 100%;
-    height: 350px;
+    height: 400px;
     object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.movie-card:hover .movie-poster {
+    transform: scale(1.1);
 }
 
 .movie-info {
-    padding: 15px;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
 }
 
 .movie-title {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
+    color: white;
 }
 
 .movie-rating {
     color: #e50914;
     font-weight: bold;
+    font-size: 16px;
 }
 
-/* Earning Section */
-.earning-section {
-    padding: 80px 50px;
-    background: #181818;
-    text-align: center;
+/* Hidden Admin Section - Only for you */
+.admin-section {
+    display: none; /* Users ko nahi dikhega */
 }
 
-.earning-section h2 {
-    font-size: 32px;
-    margin-bottom: 40px;
-    color: #e50914;
-}
-
-.platforms-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.platform-card {
-    background: #222;
-    padding: 30px 20px;
+.secret-admin {
+    background: #000;
+    padding: 20px;
+    margin: 20px;
     border-radius: 10px;
-    cursor: pointer;
-    transition: transform 0.3s, background 0.3s;
-}
-
-.platform-card:hover {
-    transform: translateY(-5px);
-    background: #e50914;
-}
-
-.platform-card h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
+    border: 2px solid #e50914;
 }
 
 /* Loading Animation */
@@ -264,18 +269,22 @@ body {
     }
     
     .nav-search input {
-        width: 200px;
+        width: 250px;
     }
     
     .hero-content h1 {
-        font-size: 32px;
+        font-size: 36px;
     }
     
     .hero-content p {
         font-size: 18px;
     }
     
-    .movies-section, .earning-section {
+    .movies-section {
         padding: 50px 20px;
     }
-  }
+    
+    .movies-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+        }
