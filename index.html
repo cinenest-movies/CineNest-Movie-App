@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CineNest - Ultimate Movie Streaming Platform</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="landing-body">
@@ -22,8 +22,9 @@
         </button>
     </nav>
 
-    <!-- Hero Landing Page -->
+    <!-- Hero Landing Page with Movie Background -->
     <section class="professional-hero">
+        <div class="hero-background"></div>
         <div class="hero-container">
             <div class="main-logo">
                 <i class="fas fa-play-circle"></i>
@@ -51,7 +52,7 @@
             </div>
         </div>
 
-        <!-- Categories Navigation -->
+        <!-- Enhanced Categories Navigation -->
         <div class="categories-nav">
             <button class="category-btn active" onclick="filterCategory('trending')">
                 <i class="fas fa-fire"></i> Trending
@@ -73,6 +74,12 @@
             </button>
             <button class="category-btn" onclick="filterCategory('comedy')">
                 <i class="fas fa-laugh"></i> Comedy
+            </button>
+            <button class="category-btn" onclick="filterCategory('thriller')">
+                <i class="fas fa-mask"></i> Thriller
+            </button>
+            <button class="category-btn" onclick="filterCategory('horror')">
+                <i class="fas fa-ghost"></i> Horror
             </button>
         </div>
 
@@ -125,6 +132,52 @@
                 <div class="loading">Loading comedy movies...</div>
             </div>
         </section>
+
+        <section class="movies-section" id="thrillerSection">
+            <h2 class="section-title"><i class="fas fa-mask"></i> Thriller Movies</h2>
+            <div class="movies-grid" id="thrillerMovies">
+                <div class="loading">Loading thriller movies...</div>
+            </div>
+        </section>
+
+        <section class="movies-section" id="horrorSection">
+            <h2 class="section-title"><i class="fas fa-ghost"></i> Horror Movies</h2>
+            <div class="movies-grid" id="horrorMovies">
+                <div class="loading">Loading horror movies...</div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Professional Login Modal -->
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeLogin()">&times;</span>
+            <div class="login-container">
+                <div class="login-logo">
+                    <i class="fas fa-play-circle"></i>
+                    <h2>CINENEST</h2>
+                </div>
+                <h3>Welcome Back</h3>
+                <p>Sign in to your account</p>
+                
+                <form class="login-form" onsubmit="handleLogin(event)">
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Email Address" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="login-submit-btn">Sign In</button>
+                </form>
+                
+                <div class="login-options">
+                    <p>Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a></p>
+                    <p><a href="#">Forgot Password?</a></p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="app.js"></script>
