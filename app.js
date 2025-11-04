@@ -1,11 +1,12 @@
-// CineNest Professional Movie App
+// CineNest Professional Movie App - Enhanced
 const TMDB_API_KEY = '30b603a755d767e948c61a7ae751fbb3';
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
+let currentCategory = 'trending';
+
 // Initialize App
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('CineNest Professional App Started');
-    // App starts with landing page, main app hidden
+    console.log('CineNest Enhanced App Started');
 });
 
 // Get Started Function - Shows Main App
@@ -22,8 +23,6 @@ function openLogin() {
     
     if (username === 'admin' && password === 'admin123') {
         alert('🔐 Admin Login Successful!');
-        // Show admin section
-        document.querySelector('.admin-section').classList.remove('hidden');
         getStarted();
     } else if (username && password) {
         alert('Welcome User! Enjoy streaming.');
@@ -33,27 +32,80 @@ function openLogin() {
     }
 }
 
+// Filter Categories
+function filterCategory(category) {
+    currentCategory = category;
+    
+    // Update active category button
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    // Show selected section, hide others
+    document.querySelectorAll('.movies-section').forEach(section => {
+        section.classList.remove('active-section');
+    });
+    
+    document.getElementById(category + 'Section').classList.add('active-section');
+    
+    // Load category specific movies
+    loadCategoryMovies(category);
+}
+
 // Load All Movie Sections
 async function loadAllSections() {
     try {
-        // Load Trending Movies
-        const trendingResponse = await fetch(`${TMDB_BASE_URL}/trending/movie/week?api_key=${TMDB_API_KEY}`);
-        const trendingData = await trendingResponse.json();
-        displayMovies(trendingData.results.slice(0, 8), 'trendingMovies');
-
-        // Load Bollywood Movies (Hindi)
-        const bollywoodResponse = await fetch(`${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_original_language=hi&sort_by=popularity.desc`);
-        const bollywoodData = await bollywoodResponse.json();
-        displayMovies(bollywoodData.results.slice(0, 8), 'bollywoodMovies');
-
-        // Load Hollywood Movies
-        const hollywoodResponse = await fetch(`${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_original_language=en&sort_by=popularity.desc`);
-        const hollywoodData = await hollywoodResponse.json();
-        displayMovies(hollywoodData.results.slice(0, 8), 'hollywoodMovies');
-
+        await loadCategoryMovies('trending');
+        await loadCategoryMovies('bollywood');
+        await loadCategoryMovies('hollywood');
+        await loadCategoryMovies('south');
+        await loadCategoryMovies('hindi_dubbed');
+        await loadCategoryMovies('action');
+        await loadCategoryMovies('comedy');
+        
     } catch (error) {
         console.error('Error loading movies:', error);
         showError();
+    }
+}
+
+// Load Category Specific Movies
+async function loadCategoryMovies(category) {
+    try {
+        let url = '';
+        
+        switch(category) {
+            case 'trending':
+                url = `${TMDB_BASE_URL}/trending/movie/week?api_key=${TMDB_API_KEY}`;
+                break;
+            case 'bollywood':
+                url = `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_original_language=hi&sort_by=popularity.desc`;
+                break;
+            case 'hollywood':
+                url = `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_original_language=en&sort_by=popularity.desc`;
+                break;
+            case 'south':
+                url = `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_original_language=ta&sort_by=popularity.desc`;
+                break;
+            case 'hindi_dubbed':
+                url = `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_original_language=hi&sort_by=popularity.desc`;
+                break;
+            case 'action':
+                url = `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_genres=28&sort_by=popularity.desc`;
+                break;
+            case 'comedy':
+                url = `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_genres=35&sort_by=popularity.desc`;
+                break;
+        }
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        displayMovies(data.results.slice(0, 12), category + 'Movies');
+        
+    } catch (error) {
+        console.error(`Error loading ${category} movies:`, error);
+        document.getElementById(category + 'Movies').innerHTML = '<div class="loading">Unable to load movies</div>';
     }
 }
 
@@ -62,7 +114,7 @@ function displayMovies(movies, containerId) {
     const container = document.getElementById(containerId);
     
     if (!movies || movies.length === 0) {
-        container.innerHTML = '<div class="loading">No movies found</div>';
+        container.innerHTML = '<div class="loading">No movies found in this category</div>';
         return;
     }
 
@@ -80,8 +132,8 @@ function displayMovies(movies, containerId) {
                 <div class="movie-info">
                     <h3 class="movie-title">${movie.title}</h3>
                     <p class="movie-rating">⭐ ${movie.vote_average}/10</p>
-                    <button class="btn-primary" onclick="event.stopPropagation(); addToFavorites(${movie.id})">
-                        ❤️ Favorite
+                    <button class="search-btn" onclick="event.stopPropagation(); addToFavorites(${movie.id})" style="padding: 10px 20px; margin-top: 10px;">
+                        <i class="fas fa-heart"></i> Favorite
                     </button>
                 </div>
             </div>
@@ -100,15 +152,16 @@ async function searchMovies() {
     }
 
     try {
-        document.getElementById('trendingMovies').innerHTML = '<div class="loading">Searching...</div>';
-        document.getElementById('bollywoodMovies').innerHTML = '';
-        document.getElementById('hollywoodMovies').innerHTML = '';
+        document.querySelectorAll('.movies-grid').forEach(container => {
+            container.innerHTML = '<div class="loading">Searching...</div>';
+        });
         
         const response = await fetch(`${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`);
         const data = await response.json();
         
+        // Show search results in trending section
+        filterCategory('trending');
         displayMovies(data.results, 'trendingMovies');
-        document.getElementById('trending').scrollIntoView({ behavior: 'smooth' });
         
     } catch (error) {
         console.error('Error searching movies:', error);
@@ -125,7 +178,17 @@ function handleSearch(event) {
 
 // Movie Details
 function showMovieDetails(movieId) {
-    alert(`🎬 Movie ID: ${movieId}\n\nFeatures Coming Soon:\n• Full Movie Details\n• Cast & Crew\n• Trailers\n• Streaming Options\n• Where to Watch`);
+    const watchOptions = `
+🎬 Movie Options Available:
+
+🎥 YouTube: Watch FREE with ads
+🅱 Netflix: Stream with subscription  
+🔥 Hotstar: Indian content library
+📦 Amazon: Rent or buy
+
+💰 You earn commission on every watch!
+    `;
+    alert(watchOptions);
 }
 
 // Add to Favorites
@@ -133,14 +196,13 @@ function addToFavorites(movieId) {
     alert('❤️ Added to Favorites!\n\nMovie saved to your personal collection.');
 }
 
-// Admin Panel
-function openAdminPanel() {
-    alert('🔧 Admin Panel\n\nSecret Features:\n• Movie Management\n• User Analytics\n• Revenue Tracking\n• Content Moderation\n• Earning Reports');
-}
-
 // Error Handling
 function showError() {
-    const containers = ['trendingMovies', 'bollywoodMovies', 'hollywoodMovies'];
+    const containers = [
+        'trendingMovies', 'bollywoodMovies', 'hollywoodMovies',
+        'southMovies', 'hindiDubbedMovies', 'actionMovies', 'comedyMovies'
+    ];
+    
     containers.forEach(containerId => {
         const container = document.getElementById(containerId);
         if (container) {
@@ -149,19 +211,7 @@ function showError() {
     });
 }
 
-// Background Images for Variety
-const professionalBackgrounds = [
-    'https://image.tmdb.org/t/p/w1280/8GnWDLn2AhnmkQ7hlQ9NJUYobSS.jpg',
-    'https://image.tmdb.org/t/p/w1280/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg',
-    'https://image.tmdb.org/t/p/w1280/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg'
-];
-
-function rotateBackground() {
-    const randomBg = professionalBackgrounds[Math.floor(Math.random() * professionalBackgrounds.length)];
-    document.querySelector('.professional-hero').style.backgroundImage = `linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.9) 100%), url('${randomBg}')`;
-    document.querySelector('.professional-hero').style.backgroundSize = 'cover';
-    document.querySelector('.professional-hero').style.backgroundPosition = 'center';
+// Initialize first category
+function initializeApp() {
+    filterCategory('trending');
 }
-
-// Initialize background on load
-window.addEventListener('load', rotateBackground);
