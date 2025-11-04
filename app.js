@@ -1,52 +1,92 @@
-// CineNest Main JavaScript
+// CineNest Professional Movie App
 const TMDB_API_KEY = '30b603a755d767e948c61a7ae751fbb3';
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
-// DOM Elements
-let currentUser = null;
-
 // Initialize App
 document.addEventListener('DOMContentLoaded', function() {
-    loadTrendingMovies();
-    checkAuthStatus();
+    console.log('CineNest Professional App Started');
+    // App starts with landing page, main app hidden
 });
 
-// Load Trending Movies from TMDb
-async function loadTrendingMovies() {
+// Get Started Function - Shows Main App
+function getStarted() {
+    document.querySelector('.professional-hero').classList.add('hidden');
+    document.getElementById('mainApp').classList.remove('hidden');
+    loadAllSections();
+}
+
+// Login Function
+function openLogin() {
+    const username = prompt('Enter username:');
+    const password = prompt('Enter password:');
+    
+    if (username === 'admin' && password === 'admin123') {
+        alert('🔐 Admin Login Successful!');
+        // Show admin section
+        document.querySelector('.admin-section').classList.remove('hidden');
+        getStarted();
+    } else if (username && password) {
+        alert('Welcome User! Enjoy streaming.');
+        getStarted();
+    } else {
+        alert('Please login to access all features.');
+    }
+}
+
+// Load All Movie Sections
+async function loadAllSections() {
     try {
-        const response = await fetch(`${TMDB_BASE_URL}/trending/movie/week?api_key=${TMDB_API_KEY}`);
-        const data = await response.json();
-        displayMovies(data.results);
+        // Load Trending Movies
+        const trendingResponse = await fetch(`${TMDB_BASE_URL}/trending/movie/week?api_key=${TMDB_API_KEY}`);
+        const trendingData = await trendingResponse.json();
+        displayMovies(trendingData.results.slice(0, 8), 'trendingMovies');
+
+        // Load Bollywood Movies (Hindi)
+        const bollywoodResponse = await fetch(`${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_original_language=hi&sort_by=popularity.desc`);
+        const bollywoodData = await bollywoodResponse.json();
+        displayMovies(bollywoodData.results.slice(0, 8), 'bollywoodMovies');
+
+        // Load Hollywood Movies
+        const hollywoodResponse = await fetch(`${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&with_original_language=en&sort_by=popularity.desc`);
+        const hollywoodData = await hollywoodResponse.json();
+        displayMovies(hollywoodData.results.slice(0, 8), 'hollywoodMovies');
+
     } catch (error) {
         console.error('Error loading movies:', error);
-        document.getElementById('moviesGrid').innerHTML = '<div class="loading">Error loading movies. Please try again.</div>';
+        showError();
     }
 }
 
 // Display Movies in Grid
-function displayMovies(movies) {
-    const moviesGrid = document.getElementById('moviesGrid');
+function displayMovies(movies, containerId) {
+    const container = document.getElementById(containerId);
     
     if (!movies || movies.length === 0) {
-        moviesGrid.innerHTML = '<div class="loading">No movies found.</div>';
+        container.innerHTML = '<div class="loading">No movies found</div>';
         return;
     }
 
-    moviesGrid.innerHTML = movies.map(movie => `
-        <div class="movie-card" onclick="showMovieDetails(${movie.id})">
-            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" 
-                 alt="${movie.title}" 
-                 class="movie-poster"
-                 onerror="this.src='https://via.placeholder.com/500x750/181818/FFFFFF?text=No+Image'">
-            <div class="movie-info">
-                <h3 class="movie-title">${movie.title}</h3>
-                <p class="movie-rating">⭐ ${movie.vote_average}/10</p>
-                <button class="btn-primary" onclick="event.stopPropagation(); addToFavorites(${movie.id})">
-                    ❤️ Add to Favorites
-                </button>
+    container.innerHTML = movies.map(movie => {
+        const posterUrl = movie.poster_path 
+            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+            : 'https://via.placeholder.com/500x750/333333/FFFFFF?text=No+Poster';
+            
+        return `
+            <div class="movie-card" onclick="showMovieDetails(${movie.id})">
+                <img src="${posterUrl}" 
+                     alt="${movie.title}" 
+                     class="movie-poster"
+                     loading="lazy">
+                <div class="movie-info">
+                    <h3 class="movie-title">${movie.title}</h3>
+                    <p class="movie-rating">⭐ ${movie.vote_average}/10</p>
+                    <button class="btn-primary" onclick="event.stopPropagation(); addToFavorites(${movie.id})">
+                        ❤️ Favorite
+                    </button>
+                </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 // Search Movies
@@ -55,123 +95,73 @@ async function searchMovies() {
     const query = searchInput.value.trim();
     
     if (!query) {
-        loadTrendingMovies();
+        loadAllSections();
         return;
     }
 
     try {
+        document.getElementById('trendingMovies').innerHTML = '<div class="loading">Searching...</div>';
+        document.getElementById('bollywoodMovies').innerHTML = '';
+        document.getElementById('hollywoodMovies').innerHTML = '';
+        
         const response = await fetch(`${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`);
         const data = await response.json();
-        displayMovies(data.results);
+        
+        displayMovies(data.results, 'trendingMovies');
+        document.getElementById('trending').scrollIntoView({ behavior: 'smooth' });
+        
     } catch (error) {
         console.error('Error searching movies:', error);
+        document.getElementById('trendingMovies').innerHTML = '<div class="loading">Search failed. Please try again.</div>';
     }
 }
 
-// Show Movie Details
+// Enter Key Support
+function handleSearch(event) {
+    if (event.key === 'Enter') {
+        searchMovies();
+    }
+}
+
+// Movie Details
 function showMovieDetails(movieId) {
-    alert(`Movie ID: ${movieId}\n\nThis will open detailed movie page with:\n- Full details\n- Cast information\n- Trailers\n- Where to watch options\n- YouTube links\n- Affiliate links`);
-    
-    // Yahan pe hum movie details page banayenge
-    window.location.href = `movie-details.html?id=${movieId}`;
-}
-
-// Earning Platform Functions
-function watchOnYouTube() {
-    const earningOptions = `
-    🎥 YOUTUBE EARNING OPTIONS:
-    
-    1. FREE Movies with Ads - You earn from ad revenue
-    2. Movie Rentals - You get 30% commission
-    3. YouTube Premium - Referral earnings
-    4. Channel Memberships - Monthly income
-    
-    💰 Estimated Earnings: $5-50 per 1000 views
-    `;
-    alert(earningOptions);
-}
-
-function watchOnNetflix() {
-    alert(`🎬 NETFLIX AFFILIATE PROGRAM
-    
-    • Earn 30% commission on new subscriptions
-    • $15-45 per signup
-    • Global affiliate program
-    • Recurring commissions possible
-    
-    💵 Potential: $1000+ per month`);
-}
-
-function watchOnHotstar() {
-    alert(`🔥 DISNEY+HOTSTAR REFERRAL
-    
-    • Indian market focus
-    • High conversion rates
-    • ₹200-500 per subscription
-    • Seasonal offers boost earnings
-    
-    🇮🇳 Great for Indian users`);
-}
-
-function watchOnAmazon() {
-    alert(`📦 AMAZON PRIME AFFILIATE
-    
-    • 5-10% commission on movie rentals
-    • $2.50 per Prime signup
-    • Worldwide program
-    • 24-hour cookie tracking
-    
-    🛒 Multiple earning opportunities`);
-}
-
-// User Authentication
-function openLogin() {
-    const loginModal = `
-    🔐 CINENEST LOGIN
-    
-    Email: _________
-    Password: _________
-    
-    [Login] [Sign Up]
-    
-    Features:
-    ✅ Save favorites
-    ✅ Watch history
-    ✅ Personal recommendations
-    ✅ Earn money tracking
-    `;
-    alert(loginModal);
+    alert(`🎬 Movie ID: ${movieId}\n\nFeatures Coming Soon:\n• Full Movie Details\n• Cast & Crew\n• Trailers\n• Streaming Options\n• Where to Watch`);
 }
 
 // Add to Favorites
 function addToFavorites(movieId) {
-    if (!currentUser) {
-        alert('Please login to add favorites!');
-        openLogin();
-        return;
-    }
-    alert(`❤️ Movie added to favorites!\n\nYou can now:\n- Track your favorite movies\n- Get personalized recommendations\n- Earn rewards for watching`);
+    alert('❤️ Added to Favorites!\n\nMovie saved to your personal collection.');
 }
 
-// Get Started Function
-function getStarted() {
-    alert('🚀 Welcome to CineNest!\n\nStart exploring thousands of movies and earn money while watching!');
+// Admin Panel
+function openAdminPanel() {
+    alert('🔧 Admin Panel\n\nSecret Features:\n• Movie Management\n• User Analytics\n• Revenue Tracking\n• Content Moderation\n• Earning Reports');
 }
 
-// Learn More Function
-function learnMore() {
-    alert('📖 ABOUT CINENEST\n\n• Watch movies from multiple platforms\n• Earn money through affiliate programs\n• Free YouTube movies with ads\n• Personalized recommendations\n• No subscription required!');
+// Error Handling
+function showError() {
+    const containers = ['trendingMovies', 'bollywoodMovies', 'hollywoodMovies'];
+    containers.forEach(containerId => {
+        const container = document.getElementById(containerId);
+        if (container) {
+            container.innerHTML = '<div class="loading">Unable to load movies. Check internet connection.</div>';
+        }
+    });
 }
 
-// Check Auth Status
-function checkAuthStatus() {
-    // Yahan pe hum user login status check karenge
-    console.log('Auth status checked');
+// Background Images for Variety
+const professionalBackgrounds = [
+    'https://image.tmdb.org/t/p/w1280/8GnWDLn2AhnmkQ7hlQ9NJUYobSS.jpg',
+    'https://image.tmdb.org/t/p/w1280/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg',
+    'https://image.tmdb.org/t/p/w1280/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg'
+];
+
+function rotateBackground() {
+    const randomBg = professionalBackgrounds[Math.floor(Math.random() * professionalBackgrounds.length)];
+    document.querySelector('.professional-hero').style.backgroundImage = `linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.9) 100%), url('${randomBg}')`;
+    document.querySelector('.professional-hero').style.backgroundSize = 'cover';
+    document.querySelector('.professional-hero').style.backgroundPosition = 'center';
 }
 
-// Enter Key Support for Search
-document.getElementById('searchInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-        searchMovies();
-    }
-});
+// Initialize background on load
+window.addEventListener('load', rotateBackground);
