@@ -3,77 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineNest - Premium Movie Experience</title>
+    <title>CineNest - Ultimate Movie Streaming Platform</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- Professional Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <h2>🎬 <span class="brand">CineNest</span></h2>
-            </div>
-            <div class="nav-search">
-                <input type="text" id="searchInput" placeholder="Search movies, TV shows..." onkeypress="handleSearch(event)">
-                <button onclick="searchMovies()">🔍 Search</button>
-            </div>
-            <div class="nav-links">
-                <a href="#home" class="active">Home</a>
-                <a href="#movies">Movies</a>
-                <a href="#trending">Trending</a>
-                <a href="#bollywood">Bollywood</a>
-                <button class="login-btn" onclick="openLogin()">Sign In</button>
+<body class="landing-body">
+    <!-- Simple Navigation -->
+    <nav class="simple-nav">
+        <div class="nav-logo">
+            <div class="logo-container">
+                <div class="logo-icon">🎬</div>
+                <h1>CINENEST</h1>
             </div>
         </div>
+        <button class="simple-login-btn" onclick="openLogin()">Login</button>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Unlimited Movies, TV Shows & More</h1>
-            <p>Stream anywhere. Cancel anytime. Premium experience.</p>
-            <div class="hero-buttons">
-                <button class="btn-primary" onclick="getStarted()">Get Started</button>
-                <button class="btn-secondary" onclick="watchTrailer()">Watch Trailer</button>
+    <!-- Hero Landing Page -->
+    <section class="professional-hero">
+        <div class="hero-container">
+            <h1 class="main-title">CINENEST</h1>
+            <p class="platform-tagline">Your Ultimate Movie Streaming Platform</p>
+            <p class="platform-description">
+                Discover trending movies, Bollywood hits, Hollywood blockbusters, and South Indian cinema. 
+                Create watchlists, track your favorites, and find where to stream.
+            </p>
+            <button class="cta-button" onclick="getStarted()">Get Started</button>
+        </div>
+    </section>
+
+    <!-- Main App (Hidden Initially) -->
+    <div id="mainApp" class="hidden">
+        <!-- Search Container -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search movies, TV shows..." onkeypress="handleSearch(event)">
+            <button onclick="searchMovies()">🔍 Search</button>
+        </div>
+
+        <!-- Movies Sections -->
+        <section class="movies-section" id="trending">
+            <h2>🔥 Trending Now</h2>
+            <div class="movies-grid" id="trendingMovies">
+                <div class="loading">Loading trending movies...</div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Trending Movies Section -->
-    <section class="movies-section" id="trending">
-        <h2>🔥 Trending Now</h2>
-        <div class="movies-grid" id="trendingMovies">
-            <div class="loading">Loading trending movies...</div>
-        </div>
-    </section>
+        <section class="movies-section" id="bollywood">
+            <h2>🎭 Bollywood Hits</h2>
+            <div class="movies-grid" id="bollywoodMovies">
+                <div class="loading">Loading Bollywood movies...</div>
+            </div>
+        </section>
 
-    <!-- Bollywood Movies Section -->
-    <section class="movies-section" id="bollywood">
-        <h2>🎭 Bollywood Hits</h2>
-        <div class="movies-grid" id="bollywoodMovies">
-            <div class="loading">Loading Bollywood movies...</div>
-        </div>
-    </section>
+        <section class="movies-section" id="hollywood">
+            <h2>🎬 Hollywood Blockbusters</h2>
+            <div class="movies-grid" id="hollywoodMovies">
+                <div class="loading">Loading Hollywood movies...</div>
+            </div>
+        </section>
 
-    <!-- Hollywood Movies Section -->
-    <section class="movies-section" id="movies">
-        <h2>🎬 Hollywood Blockbusters</h2>
-        <div class="movies-grid" id="hollywoodMovies">
-            <div class="loading">Loading Hollywood movies...</div>
-        </div>
-    </section>
-
-    <!-- Secret Admin Section - Only you can access -->
-    <div class="admin-section">
-        <div class="secret-admin">
-            <h3>🔧 Admin Dashboard</h3>
-            <p>Secret URL: /admin.html</p>
-            <button onclick="openAdmin()" style="background: #000; color: #e50914; border: 2px solid #e50914; padding: 10px 20px; margin: 5px;">Open Admin Panel</button>
+        <!-- Admin Section (Hidden) -->
+        <div class="admin-section hidden">
+            <div class="secret-admin">
+                <h3>🔧 Admin Dashboard</h3>
+                <button onclick="openAdminPanel()">Open Admin Panel</button>
+            </div>
         </div>
     </div>
 
     <script src="app.js"></script>
-    <script src="tmdb-api.js"></script>
 </body>
 </html>
