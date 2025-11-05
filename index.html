@@ -42,14 +42,14 @@
     <div id="searchOverlay" class="search-overlay hidden">
         <div class="search-overlay-content">
             <div class="search-header">
-                <h3>Search Movies</h3>
+                <h3>Search Indian Movies</h3>
                 <button class="close-search" onclick="hideSearch()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="search-box-overlay">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchOverlayInput" placeholder="Search movies, actors, genres..." onkeypress="handleOverlaySearch(event)">
+                <input type="text" id="searchOverlayInput" placeholder="Search Bollywood, South Indian movies..." onkeypress="handleOverlaySearch(event)">
                 <button class="search-btn" onclick="searchMoviesOverlay()">Search</button>
             </div>
         </div>
@@ -82,15 +82,15 @@
             <div class="hero-stats">
                 <div class="stat-item">
                     <span class="stat-number">10,000+</span>
-                    <span class="stat-label">Movies</span>
+                    <span class="stat-label">Indian Movies</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-number">500+</span>
                     <span class="stat-label">Daily Users</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">₹2.5L+</span>
-                    <span class="stat-label">Earned</span>
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label">Indian Content</span>
                 </div>
             </div>
         </div>
@@ -99,27 +99,15 @@
     <!-- Ad Space for Earnings -->
     <div class="ad-container">
         <div class="ad-space" id="adSpace1">
-            <!-- Google AdSense will be integrated here -->
             <div class="ad-placeholder">
-                <span>Ad Space - Premium Movie Partnerships</span>
+                <span>🎬 Premium Movie Partnerships</span>
             </div>
         </div>
     </div>
 
     <!-- Main App (Hidden Initially) -->
     <div id="mainApp" class="hidden">
-        <!-- Professional Search Bar -->
-        <div class="professional-search-container">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Search Bollywood, South Indian, Hollywood movies..." onkeypress="handleSearch(event)">
-                <button class="search-btn" onclick="searchMovies()">
-                    <i class="fas fa-search"></i> Search
-                </button>
-            </div>
-        </div>
-
-        <!-- Enhanced Categories Navigation -->
+        <!-- Categories Navigation - Search Bar Removed -->
         <div class="categories-nav">
             <button class="category-btn active" onclick="filterCategory('trending')" data-category="trending">
                 <i class="fas fa-fire"></i> Trending
@@ -133,9 +121,6 @@
             <button class="category-btn" onclick="filterCategory('hindi_dubbed')" data-category="hindi_dubbed">
                 <i class="fas fa-language"></i> Hindi Dubbed
             </button>
-            <button class="category-btn" onclick="filterCategory('hollywood')" data-category="hollywood">
-                <i class="fas fa-star"></i> Hollywood
-            </button>
             <button class="category-btn" onclick="filterCategory('action')" data-category="action">
                 <i class="fas fa-explosion"></i> Action
             </button>
@@ -148,7 +133,7 @@
         <div class="ad-container">
             <div class="ad-space" id="adSpace2">
                 <div class="ad-placeholder">
-                    <span>Sponsored - Amazon Prime Video</span>
+                    <span>📱 Available on Streaming Platforms</span>
                 </div>
             </div>
         </div>
@@ -157,7 +142,7 @@
         <section class="movies-section active-section" id="trendingSection">
             <h2 class="section-title"><i class="fas fa-fire"></i> Trending Now</h2>
             <div class="movies-grid" id="trendingMovies">
-                <div class="loading">Loading trending movies...</div>
+                <div class="loading">Loading trending Indian movies...</div>
             </div>
         </section>
 
@@ -186,17 +171,10 @@
         <div class="ad-container">
             <div class="ad-space" id="adSpace3">
                 <div class="ad-placeholder">
-                    <span>Sponsored - Disney+ Hotstar</span>
+                    <span>🌟 Featured Movie Content</span>
                 </div>
             </div>
         </div>
-
-        <section class="movies-section" id="hollywoodSection">
-            <h2 class="section-title"><i class="fas fa-star"></i> Hollywood in India</h2>
-            <div class="movies-grid" id="hollywoodMovies">
-                <div class="loading">Loading Hollywood movies...</div>
-            </div>
-        </section>
 
         <section class="movies-section" id="actionSection">
             <h2 class="section-title"><i class="fas fa-explosion"></i> Action Movies</h2>
@@ -223,7 +201,7 @@
                     <h2>CINENEST</h2>
                 </div>
                 <h3>Welcome to CineNest</h3>
-                <p>Sign in to access unlimited movies</p>
+                <p>Sign in to access unlimited Indian movies</p>
                 
                 <div class="login-options">
                     <button class="google-login-btn" onclick="googleSignIn()">
@@ -266,7 +244,7 @@
                     <h2>ADMIN ACCESS</h2>
                 </div>
                 <h3>Admin Authentication</h3>
-                <p>Restricted access</p>
+                <p>Restricted access - Owner only</p>
                 
                 <form class="login-form" onsubmit="handleAdminLogin(event)">
                     <div class="input-group">
@@ -291,7 +269,7 @@
                     <i class="fas fa-play-circle"></i>
                     <h3>CINENEST</h3>
                 </div>
-                <p>India's premier movie streaming platform bringing you the best of Bollywood, South Indian cinema, and international films.</p>
+                <p>India's premier movie streaming platform bringing you the best of Bollywood, South Indian cinema and international films.</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
@@ -305,19 +283,19 @@
                 <a href="#" onclick="filterCategory('bollywood')">Bollywood</a>
                 <a href="#" onclick="filterCategory('south_indian')">South Indian</a>
                 <a href="#" onclick="filterCategory('hindi_dubbed')">Hindi Dubbed</a>
-                <a href="#" onclick="filterCategory('hollywood')">Hollywood</a>
                 <a href="#" onclick="filterCategory('action')">Action</a>
                 <a href="#" onclick="filterCategory('comedy')">Comedy</a>
+                <a href="#" onclick="filterCategory('trending')">Trending</a>
             </div>
             
             <div class="footer-section">
-                <h4>Streaming Partners</h4>
-                <a href="#">YouTube Movies</a>
-                <a href="#">Amazon Prime</a>
-                <a href="#">Disney+ Hotstar</a>
-                <a href="#">Netflix</a>
-                <a href="#">ZEE5</a>
-                <a href="#">SonyLIV</a>
+                <h4>Streaming Info</h4>
+                <a href="#">Available Platforms</a>
+                <a href="#">Movie Reviews</a>
+                <a href="#">Release Updates</a>
+                <a href="#">Theater Listings</a>
+                <a href="#">TV Broadcast</a>
+                <a href="#">Digital Rights</a>
             </div>
             
             <div class="footer-section">
@@ -331,18 +309,18 @@
             </div>
             
             <div class="footer-section">
-                <h4>Earning Info</h4>
-                <a href="#">Affiliate Program</a>
-                <a href="#">Advertise With Us</a>
-                <a href="#">Sponsorship</a>
-                <a href="#">Revenue Sharing</a>
-                <a href="#">Partner Login</a>
+                <h4>For Creators</h4>
+                <a href="#">Movie Reviews</a>
+                <a href="#">Content Guidelines</a>
+                <a href="#">Community</a>
+                <a href="#">Blog</a>
+                <a href="#">Newsletter</a>
             </div>
         </div>
         
         <div class="footer-bottom">
             <p>&copy; 2024 CineNest. All rights reserved. | Made with ❤️ for Indian Cinema Lovers</p>
-            <p>Streaming partners: YouTube Movies • Amazon Prime • Disney+ Hotstar • Netflix</p>
+            <p>Content available on various streaming platforms • 100% Legal Content</p>
         </div>
     </footer>
 
@@ -366,4 +344,4 @@
     <!-- Google AdSense Script (Will be added later) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 </body>
-                </html>
+                    </html>
