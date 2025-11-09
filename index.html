@@ -1,347 +1,92 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineNest - Ultimate Indian Movie Streaming Platform</title>
-    <meta name="description" content="Stream Bollywood, South Indian movies and Hindi dubbed films. Watch trailers, read reviews and find where to stream.">
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#e50914">
-    
-    <!-- Styles & Fonts -->
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Preload critical resources -->
-    <link rel="preload" href="style.css" as="style">
-    <link rel="preload" href="app.js" as="script">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CineNest — India’s Ultimate Movie Streaming Platform</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="landing-body">
-    <!-- Professional Navigation -->
-    <nav class="professional-nav">
-        <div class="nav-logo">
-            <div class="logo-container">
-                <div class="logo-icon"><i class="fas fa-play-circle"></i></div>
-                <h1 class="logo-text">CINENEST</h1>
-            </div>
-        </div>
-        <div class="nav-actions">
-            <button class="nav-btn" onclick="showSearch()">
-                <i class="fas fa-search"></i>
-            </button>
-            <button class="professional-login-btn" onclick="openLogin()">
-                <i class="fas fa-user"></i> Login
-            </button>
-        </div>
+<body>
+  <header class="header">
+    <div class="brand">
+      <span class="logo">CineNest</span>
+      <span class="tagline">India’s Ultimate Movie Streaming Platform</span>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-btn" data-section="trending">Trending</button>
+      <button class="nav-btn" data-section="popular">Popular</button>
+      <button class="nav-btn" data-section="now_playing">Now Playing</button>
+      <div class="divider"></div>
+      <button class="nav-btn" data-section="bollywood">Bollywood</button>
+      <button class="nav-btn" data-section="hindi_dubbed">Hindi Dubbed</button>
+      <button class="nav-btn" data-section="thriller">Thriller</button>
+      <button class="nav-btn" data-section="horror">Horror</button>
     </nav>
 
-    <!-- Search Overlay -->
-    <div id="searchOverlay" class="search-overlay hidden">
-        <div class="search-overlay-content">
-            <div class="search-header">
-                <h3>Search Indian Movies</h3>
-                <button class="close-search" onclick="hideSearch()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="search-box-overlay">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchOverlayInput" placeholder="Search Bollywood, South Indian movies..." onkeypress="handleOverlaySearch(event)">
-                <button class="search-btn" onclick="searchMoviesOverlay()">Search</button>
-            </div>
-        </div>
+    <div class="actions">
+      <button id="adminBtn" class="admin-btn" hidden>Admin</button>
+      <button id="loginBtn" class="login-btn">Login</button>
     </div>
+  </header>
 
-    <!-- Hero Landing Page with Movie Background -->
-    <section class="professional-hero">
-        <div class="hero-background"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-container">
-            <div class="main-logo">
-                <i class="fas fa-play-circle"></i>
-                <h1 class="main-title">CINENEST</h1>
-            </div>
-            <p class="platform-tagline">India's Ultimate Movie Streaming Platform</p>
-            <p class="platform-description">
-                Discover the best of Indian cinema - Bollywood blockbusters, South Indian hits, and Hindi dubbed movies. 
-                Create your watchlist, track favorites, and stream across multiple platforms.
-            </p>
-            <div class="hero-buttons">
-                <button class="cta-button" onclick="getStarted()">
-                    <i class="fas fa-rocket"></i> Get Started
-                </button>
-                <button class="cta-button secondary" onclick="openLogin()">
-                    <i class="fas fa-crown"></i> Admin Login
-                </button>
-            </div>
-            
-            <!-- Stats Section -->
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <span class="stat-number">10,000+</span>
-                    <span class="stat-label">Indian Movies</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">500+</span>
-                    <span class="stat-label">Daily Users</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">98%</span>
-                    <span class="stat-label">Indian Content</span>
-                </div>
-            </div>
-        </div>
+  <main class="container">
+    <section class="search-panel">
+      <div class="search-inner">
+        <div class="search-icon">🔍</div>
+        <input id="searchQuery" type="text" placeholder="Search Indian movies..." />
+        <select id="genreSelect">
+          <option value="">All Genres</option>
+          <option value="27">Horror</option>
+          <option value="53">Thriller</option>
+          <option value="28">Action</option>
+          <option value="35">Comedy</option>
+          <option value="18">Drama</option>
+        </select>
+        <input id="yearInput" type="number" placeholder="Year" />
+        <select id="languageSelect">
+          <option value="">Any Language</option>
+          <option value="hi">Hindi</option>
+          <option value="en">English</option>
+        </select>
+        <button id="searchBtn" class="primary-btn">Search</button>
+        <button id="clearBtn" class="ghost-btn">Clear</button>
+      </div>
     </section>
 
-    <!-- Ad Space for Earnings -->
-    <div class="ad-container">
-        <div class="ad-space" id="adSpace1">
-            <div class="ad-placeholder">
-                <span>🎬 Premium Movie Partnerships</span>
-            </div>
-        </div>
+    <section class="grid-section">
+      <h2 id="sectionTitle">Trending</h2>
+      <div id="grid" class="grid"></div>
+      <div id="gridLoading" class="loading">Loading movies…</div>
+      <div id="gridError" class="error" hidden></div>
+      <div id="gridEmpty" class="empty" hidden>No movies found.</div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-columns">
+      <div>
+        <h5>CineNest</h5>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Legal Notices</a></li>
+          <li><a href="#">Ad Info</a></li>
+        </ul>
+      </div>
     </div>
+    <div class="copy">© 2025 CineNest | Made for Indian Cinema Lovers | All Rights Reserved</div>
+  </footer>
 
-    <!-- Main App (Hidden Initially) -->
-    <div id="mainApp" class="hidden">
-        <!-- Categories Navigation - Search Bar Removed -->
-        <div class="categories-nav">
-            <button class="category-btn active" onclick="filterCategory('trending')" data-category="trending">
-                <i class="fas fa-fire"></i> Trending
-            </button>
-            <button class="category-btn" onclick="filterCategory('bollywood')" data-category="bollywood">
-                <i class="fas fa-film"></i> Bollywood
-            </button>
-            <button class="category-btn" onclick="filterCategory('south_indian')" data-category="south_indian">
-                <i class="fas fa-trophy"></i> South Indian
-            </button>
-            <button class="category-btn" onclick="filterCategory('hindi_dubbed')" data-category="hindi_dubbed">
-                <i class="fas fa-language"></i> Hindi Dubbed
-            </button>
-            <button class="category-btn" onclick="filterCategory('action')" data-category="action">
-                <i class="fas fa-explosion"></i> Action
-            </button>
-            <button class="category-btn" onclick="filterCategory('comedy')" data-category="comedy">
-                <i class="fas fa-laugh"></i> Comedy
-            </button>
-        </div>
-
-        <!-- Ad Space 2 -->
-        <div class="ad-container">
-            <div class="ad-space" id="adSpace2">
-                <div class="ad-placeholder">
-                    <span>📱 Available on Streaming Platforms</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Movies Sections -->
-        <section class="movies-section active-section" id="trendingSection">
-            <h2 class="section-title"><i class="fas fa-fire"></i> Trending Now</h2>
-            <div class="movies-grid" id="trendingMovies">
-                <div class="loading">Loading trending Indian movies...</div>
-            </div>
-        </section>
-
-        <section class="movies-section" id="bollywoodSection">
-            <h2 class="section-title"><i class="fas fa-film"></i> Bollywood Hits</h2>
-            <div class="movies-grid" id="bollywoodMovies">
-                <div class="loading">Loading Bollywood movies...</div>
-            </div>
-        </section>
-
-        <section class="movies-section" id="southIndianSection">
-            <h2 class="section-title"><i class="fas fa-trophy"></i> South Indian Movies</h2>
-            <div class="movies-grid" id="southIndianMovies">
-                <div class="loading">Loading South Indian movies...</div>
-            </div>
-        </section>
-
-        <section class="movies-section" id="hindiDubbedSection">
-            <h2 class="section-title"><i class="fas fa-language"></i> Hindi Dubbed Movies</h2>
-            <div class="movies-grid" id="hindiDubbedMovies">
-                <div class="loading">Loading Hindi dubbed movies...</div>
-            </div>
-        </section>
-
-        <!-- Ad Space 3 -->
-        <div class="ad-container">
-            <div class="ad-space" id="adSpace3">
-                <div class="ad-placeholder">
-                    <span>🌟 Featured Movie Content</span>
-                </div>
-            </div>
-        </div>
-
-        <section class="movies-section" id="actionSection">
-            <h2 class="section-title"><i class="fas fa-explosion"></i> Action Movies</h2>
-            <div class="movies-grid" id="actionMovies">
-                <div class="loading">Loading action movies...</div>
-            </div>
-        </section>
-
-        <section class="movies-section" id="comedySection">
-            <h2 class="section-title"><i class="fas fa-laugh"></i> Comedy Movies</h2>
-            <div class="movies-grid" id="comedyMovies">
-                <div class="loading">Loading comedy movies...</div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Professional Login Modal -->
-    <div id="loginModal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeLogin()">&times;</span>
-            <div class="login-container">
-                <div class="login-logo">
-                    <i class="fas fa-play-circle"></i>
-                    <h2>CINENEST</h2>
-                </div>
-                <h3>Welcome to CineNest</h3>
-                <p>Sign in to access unlimited Indian movies</p>
-                
-                <div class="login-options">
-                    <button class="google-login-btn" onclick="googleSignIn()">
-                        <i class="fab fa-google"></i>
-                        Continue with Google
-                    </button>
-                    
-                    <div class="divider">
-                        <span>or</span>
-                    </div>
-                    
-                    <form class="login-form" onsubmit="handleLogin(event)">
-                        <div class="input-group">
-                            <i class="fas fa-envelope"></i>
-                            <input type="email" placeholder="Email Address" required id="loginEmail">
-                        </div>
-                        <div class="input-group">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" placeholder="Password" required id="loginPassword">
-                        </div>
-                        <button type="submit" class="login-submit-btn">Sign In</button>
-                    </form>
-                </div>
-                
-                <div class="login-footer">
-                    <p>Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a></p>
-                    <p><a href="#" onclick="showAdminLogin()">Admin Login</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Admin Login Modal -->
-    <div id="adminLoginModal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeAdminLogin()">&times;</span>
-            <div class="login-container">
-                <div class="login-logo">
-                    <i class="fas fa-crown"></i>
-                    <h2>ADMIN ACCESS</h2>
-                </div>
-                <h3>Admin Authentication</h3>
-                <p>Restricted access - Owner only</p>
-                
-                <form class="login-form" onsubmit="handleAdminLogin(event)">
-                    <div class="input-group">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" placeholder="Admin Email" required id="adminEmail">
-                    </div>
-                    <div class="input-group">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Admin Password" required id="adminPassword">
-                    </div>
-                    <button type="submit" class="login-submit-btn admin">Access Dashboard</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Professional Footer -->
-    <footer class="professional-footer">
-        <div class="footer-container">
-            <div class="footer-section">
-                <div class="footer-logo">
-                    <i class="fas fa-play-circle"></i>
-                    <h3>CINENEST</h3>
-                </div>
-                <p>India's premier movie streaming platform bringing you the best of Bollywood, South Indian cinema and international films.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Browse Movies</h4>
-                <a href="#" onclick="filterCategory('bollywood')">Bollywood</a>
-                <a href="#" onclick="filterCategory('south_indian')">South Indian</a>
-                <a href="#" onclick="filterCategory('hindi_dubbed')">Hindi Dubbed</a>
-                <a href="#" onclick="filterCategory('action')">Action</a>
-                <a href="#" onclick="filterCategory('comedy')">Comedy</a>
-                <a href="#" onclick="filterCategory('trending')">Trending</a>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Streaming Info</h4>
-                <a href="#">Available Platforms</a>
-                <a href="#">Movie Reviews</a>
-                <a href="#">Release Updates</a>
-                <a href="#">Theater Listings</a>
-                <a href="#">TV Broadcast</a>
-                <a href="#">Digital Rights</a>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Company</h4>
-                <a href="#" onclick="showPrivacyPolicy()">Privacy Policy</a>
-                <a href="#" onclick="showTerms()">Terms of Service</a>
-                <a href="#" onclick="showDisclaimer()">Disclaimer</a>
-                <a href="#" onclick="showCookiePolicy()">Cookie Policy</a>
-                <a href="#">Contact Us</a>
-                <a href="#">About Us</a>
-            </div>
-            
-            <div class="footer-section">
-                <h4>For Creators</h4>
-                <a href="#">Movie Reviews</a>
-                <a href="#">Content Guidelines</a>
-                <a href="#">Community</a>
-                <a href="#">Blog</a>
-                <a href="#">Newsletter</a>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2024 CineNest. All rights reserved. | Made with ❤️ for Indian Cinema Lovers</p>
-            <p>Content available on various streaming platforms • 100% Legal Content</p>
-        </div>
-    </footer>
-
-    <!-- Install App Prompt -->
-    <div id="installPrompt" class="install-prompt hidden">
-        <div class="install-content">
-            <i class="fas fa-download"></i>
-            <div class="install-text">
-                <h4>Install CineNest App</h4>
-                <p>Get the best movie experience on your home screen</p>
-            </div>
-            <button class="install-btn" onclick="installApp()">Install</button>
-            <button class="install-close" onclick="closeInstallPrompt()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    </div>
-
-    <script src="app.js"></script>
-    
-    <!-- Google AdSense Script (Will be added later) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+  <script src="app.js"></script>
 </body>
-                    </html>
+</html>
