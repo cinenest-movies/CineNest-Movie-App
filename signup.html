@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up — CineNest</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <span class="logo">CINENEST</span>
+      <span class="logo-tag">Create your CineNest account</span>
+    </div>
+  </header>
+
+  <main class="container" style="max-width:480px;margin:40px auto">
+    <div class="modal-card" style="position:relative">
+      <div class="modal-header">
+        <div class="logo">CINENEST</div>
+        <div class="sub">Join CineNest</div>
+        <div class="tip">Sign up to access unlimited Indian movies</div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn google" onclick="demoGoogleSignup()">Continue with Google</button>
+        <div class="separator">OR</div>
+        <input id="name" type="text" placeholder="Full Name" />
+        <input id="email" type="email" placeholder="Email Address" />
+        <input id="password" type="password" placeholder="Password" />
+        <button class="btn primary" onclick="demoSignup()">Sign Up</button>
+
+        <div class="modal-links">
+          <a href="login.html" class="link">Already have an account? Login</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const ADMIN_EMAIL = 'mukeshkumarabc78@gmail.com';
+
+    function demoGoogleSignup(){
+      // Demo: Google signup sets user as admin for now
+      localStorage.setItem('cinenest_user', ADMIN_EMAIL);
+      alert('Signed up with Google (demo)');
+      window.location.href = 'index.html';
+    }
+
+    function demoSignup(){
+      const name = (document.getElementById('name').value || '').trim();
+      const email = (document.getElementById('email').value || '').trim();
+      const pass = (document.getElementById('password').value || '').trim();
+      if(!name || !email || !pass){
+        alert('Please fill all fields');
+        return;
+      }
+      localStorage.setItem('cinenest_user', email);
+      alert(`Welcome ${name}! Account created successfully.`);
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
