@@ -1,32 +1,145 @@
+<!-- movie-details.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CineNest — Movie Details</title>
+  <title>Movie Details — CineNest</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="header">
+  <header class="site-header">
     <div class="brand">
-      <span class="logo">CineNest</span>
-      <span class="tagline">Movie Details</span>
+      <span class="logo">CINENEST</span>
+      <span class="logo-tag">Movie Details</span>
+    </div>
+    <div class="nav-right">
+      <a href="index.html" class="btn ghost">Back</a>
     </div>
   </header>
 
   <main class="container">
     <section class="grid-section">
-      <h2>Movie Details Placeholder</h2>
-      <div class="empty">
-        Ye page abhi static placeholder hai.  
-        Actual movie details (poster, cast, trailer, streaming links, similar movies) **app.js ke drawer** se load hote hain jab user poster pe click karta hai.  
-        Future me agar tum chaho to yahan ek full page details view bhi bana sakte ho.
+      <h2 id="title">Loading…</h2>
+      <div class="details">
+        <div id="posterWrap"></div>
+        <div id="infoWrap"></div>
       </div>
+      <div class="status loading" id="loading">Fetching details…</div>
+      <div class="status error" id="error" hidden></div>
+    </section>
+
+    <section class="grid-section">
+      <h3>Availability</h3>
+      <div id="providers" class="about">Detecting streaming platforms…</div>
+    </section>
+
+    <section class="grid-section">
+      <h3>Cast</h3>
+      <div id="castGrid" class="grid"></div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="copy">© 2025 CineNest | All Rights Reserved</div>
+    <div class="copy">© 2025 CineNest | Made for Indian Cinema Lovers</div>
   </footer>
+
+  <script>
+    const TMDB_API_KEY = '30b603a755d767e948c61a7ae751fbb3';
+    const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    const titleEl = document.getElementById('title');
+    const posterWrap = document.getElementById('posterWrap');
+    const infoWrap = document.getElementById('infoWrap');
+    const loading = document.getElementById('loading');
+    const errorEl = document.getElementById('error');
+    const providersEl = document.getElementById('providers');
+    const castGrid = document.getElementById('castGrid');
+
+    function imgUrl(p){ return p ? `https://image.tmdb.org/t/p/w500${p}` : ''; }
+
+    async function fetchJSON(endpoint, params = {}){
+      const url = new URL(endpoint);
+      url.searchParams.set('api_key', TMDB_API_KEY);
+      Object.entries(params).forEach(([k,v]) => v!=null && url.searchParams.set(k,v));
+      const res = await fetch(url.toString());
+      if(!res.ok) throw new Error(`API ${res.status}`);
+      return res.json();
+    }
+
+    async function load(){
+      try{
+        const m = await fetchJSON(`${TMDB_BASE_URL}/movie/${id}`, { append_to_response:'videos' });
+        loading.hidden = true;
+        titleEl.textContent = m.title;
+
+        posterWrap.innerHTML = `<img class="thumb" src="${imgUrl(m.poster_path)}" alt="${m.title}" />`;
+        const year = (m.release_date||'').slice(0,4) || '—';
+        const rating = (m.vote_average??0).toFixed(1);
+        const lang = (m.original_language||'').toUpperCase();
+        const runtime = m.runtime ? `${m.runtime} mins` : '—';
+
+        infoWrap.innerHTML = `
+          <div class="card-body">
+            <div class="card-meta">⭐ ${rating}/10 • Year: ${year} • Duration: ${runtime} • Language: ${lang}</div>
+            <p class="card-meta" style="margin-top:6px">${m.overview || 'No description available.'}</p>
+          </div>
+          <div class="card-actions">
+            <a class="watch-btn" target="_blank" href="${youtubeSearch(m.title)}">YouTube Trailer</a>
+            <a class="watch-btn" target="_blank" href="https://www.primevideo.com/search?query=${encodeURIComponent(m.title)}">Amazon Prime</a>
+            <a class="watch-btn" target="_blank" href="https://www.hotstar.com/in/explore?search_query=${encodeURIComponent(m.title)}">Disney+ Hotstar</a>
+            <a class="watch-btn" target="_blank" href="https://www.netflix.com/search?q=${encodeURIComponent(m.title)}">Netflix</a>
+          </div>
+        `;
+
+        // Providers (TMDb watch providers)
+        const prov = await fetchJSON(`${TMDB_BASE_URL}/movie/${id}/watch/providers`);
+        const inProv = prov.results?.IN;
+        if(inProv){
+          providersEl.innerHTML = `
+            <strong>Providers in India:</strong>
+            <div style="margin-top:8px">${formatProviders(inProv)}</div>
+          `;
+        } else {
+          providersEl.textContent = 'No provider data found. Try platform links above.';
+        }
+
+        // Cast
+        const credits = await fetchJSON(`${TMDB_BASE_URL}/movie/${id}/credits`);
+        castGrid.innerHTML = '';
+        (credits.cast||[]).slice(0,12).forEach(c => {
+          const item = document.createElement('div');
+          item.className = 'card';
+          item.innerHTML = `
+            <img class="thumb" src="${imgUrl(c.profile_path)}" alt="${c.name}" />
+            <div class="card-body">
+              <div class="card-title">${c.name}</div>
+              <div class="card-meta">${c.character || 'Cast'}</div>
+            </div>
+          `;
+          castGrid.appendChild(item);
+        });
+      } catch(err){
+        loading.hidden = true;
+        errorEl.hidden = false;
+        errorEl.textContent = `Failed to load details: ${err.message}`;
+      }
+    }
+
+    function youtubeSearch(t){ return `https://www.youtube.com/results?search_query=${encodeURIComponent(t+' trailer')}`; }
+    function formatProviders(p){
+      const flat = [
+        ...(p.flatrate||[]).map(x=>x.provider_name+' (Streaming)'),
+        ...(p.buy||[]).map(x=>x.provider_name+' (Buy)'),
+        ...(p.rent||[]).map(x=>x.provider_name+' (Rent)')
+      ];
+      return flat.length ? flat.join(' • ') : 'No streaming info.';
+    }
+
+    if(!id){ errorEl.hidden=false; errorEl.textContent='No movie selected.'; loading.hidden=true; }
+    else load();
+  </script>
 </body>
 </html>
