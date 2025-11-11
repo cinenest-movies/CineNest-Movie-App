@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,88 +6,154 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CineNest — India’s Ultimate Movie Streaming Platform</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <header class="header">
-    <div class="brand">
-      <span class="logo">CineNest</span>
-      <span class="tagline">India’s Ultimate Movie Streaming Platform</span>
+  <header class="site-header">
+    <div class="nav-left">
+      <div class="brand">
+        <span class="logo">CINENEST</span>
+        <span class="logo-tag">India’s Ultimate Movie Streaming Platform</span>
+      </div>
     </div>
-
-    <nav class="nav">
-      <button class="nav-btn" data-section="trending">Trending</button>
-      <button class="nav-btn" data-section="popular">Popular</button>
-      <button class="nav-btn" data-section="now_playing">Now Playing</button>
-      <div class="divider"></div>
-      <button class="nav-btn" data-section="bollywood">Bollywood</button>
-      <button class="nav-btn" data-section="hindi_dubbed">Hindi Dubbed</button>
-      <button class="nav-btn" data-section="thriller">Thriller</button>
-      <button class="nav-btn" data-section="horror">Horror</button>
-    </nav>
-
-    <div class="actions">
-      <button id="adminBtn" class="admin-btn" hidden>Admin</button>
-      <button id="loginBtn" class="login-btn">Login</button>
+    <div class="nav-right">
+      <button id="loginOpenBtn" class="btn ghost">Sign in</button>
+      <button id="adminBtn" class="btn primary" hidden>Admin</button>
     </div>
   </header>
 
-  <main class="container">
-    <section class="search-panel">
-      <div class="search-inner">
-        <div class="search-icon">🔍</div>
-        <input id="searchQuery" type="text" placeholder="Search Indian movies..." />
-        <select id="genreSelect">
-          <option value="">All Genres</option>
-          <option value="27">Horror</option>
-          <option value="53">Thriller</option>
-          <option value="28">Action</option>
-          <option value="35">Comedy</option>
-          <option value="18">Drama</option>
-        </select>
-        <input id="yearInput" type="number" placeholder="Year" />
-        <select id="languageSelect">
-          <option value="">Any Language</option>
-          <option value="hi">Hindi</option>
-          <option value="en">English</option>
-        </select>
-        <button id="searchBtn" class="primary-btn">Search</button>
-        <button id="clearBtn" class="ghost-btn">Clear</button>
+  <!-- Hero banner -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">CINENEST</h1>
+      <p class="hero-desc">Discover the best of Indian cinema — Bollywood blockbusters, South Indian hits, and Hindi dubbed movies. Create your watchlist, track favorites, and stream across devices.</p>
+
+      <div class="hero-actions">
+        <button id="getStartedBtn" class="btn primary lg">Get Started</button>
+        <a href="#about" class="btn ghost lg">Learn More</a>
       </div>
-    </section>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-number">10,000+</div>
+          <div class="stat-label">Movies</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">1,000+</div>
+          <div class="stat-label">Studios</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">89%</div>
+          <div class="stat-label">Indian Content</div>
+        </div>
+      </div>
+    </div>
+    <img class="hero-bg" src="https://image.tmdb.org/t/p/w1280/1cH0v7YwGZbVio9oi5v4QGxHf5R.jpg" alt="Hero background" />
+  </section>
+
+  <!-- Search only -->
+  <section class="search-wrap">
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input id="searchQuery" type="text" placeholder="Search movies" />
+      <button id="searchBtn" class="btn primary">Search</button>
+      <button id="clearBtn" class="btn ghost">Clear</button>
+    </div>
+  </section>
+
+  <!-- Content sections -->
+  <main class="container">
+    <div class="tabs">
+      <button class="tab-btn active" data-section="bollywood">Bollywood</button>
+      <button class="tab-btn" data-section="new_releases">New Releases</button>
+      <button class="tab-btn" data-section="trending">Trending</button>
+      <button class="tab-btn" data-section="popular">Popular</button>
+    </div>
 
     <section class="grid-section">
-      <h2 id="sectionTitle">Trending</h2>
+      <h2 id="sectionTitle">Bollywood</h2>
       <div id="grid" class="grid"></div>
-      <div id="gridLoading" class="loading">Loading movies…</div>
-      <div id="gridError" class="error" hidden></div>
-      <div id="gridEmpty" class="empty" hidden>No movies found.</div>
+      <div id="gridLoading" class="status loading">Loading...</div>
+      <div id="gridError" class="status error" hidden></div>
+      <div id="gridEmpty" class="status empty" hidden>No movies found.</div>
+    </section>
+
+    <section id="about" class="about">
+      <h3>Premium Movie Partnerships</h3>
+      <p>Available on Streaming Platforms</p>
     </section>
   </main>
+
+  <!-- Login modal -->
+  <div id="loginModal" class="modal" hidden>
+    <div class="modal-card">
+      <button id="loginCloseBtn" class="modal-close">✕</button>
+      <div class="modal-header">
+        <div class="logo">CINENEST</div>
+        <div class="sub">Welcome to CineNest</div>
+        <div class="tip">Sign in to access unlimited Indian movies</div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="googleLoginBtn" class="btn google">Continue with Google</button>
+        <div class="separator">OR</div>
+        <input id="emailInput" type="email" placeholder="Email Address" />
+        <input id="passwordInput" type="password" placeholder="Password" />
+        <button id="emailLoginBtn" class="btn primary">Sign In</button>
+        <div class="modal-links">
+          <a href="#" class="link">Don't have an account? Sign Up</a>
+          <span class="divider">•</span>
+          <a href="#" class="link">Admin Login</a>
+        </div>
+        <div class="modal-note" id="adminNotice" hidden>Admin access enabled</div>
+      </div>
+    </div>
+  </div>
 
   <footer class="footer">
     <div class="footer-columns">
       <div>
-        <h5>CineNest</h5>
+        <h5>CINENEST</h5>
         <ul>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Help Center</a></li>
-          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
         </ul>
       </div>
       <div>
-        <h5>Company</h5>
+        <h5>Browse Movies</h5>
         <ul>
-          <li><a href="#">Terms of Use</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Legal Notices</a></li>
-          <li><a href="#">Ad Info</a></li>
+          <li><a href="#">Bollywood</a></li>
+          <li><a href="#">Hindi Dubbed</a></li>
+          <li><a href="#">New Releases</a></li>
+          <li><a href="#">Top Rated</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Streaming Info</h5>
+        <ul>
+          <li><a href="#">Streaming Devices</a></li>
+          <li><a href="#">TV Apps</a></li>
+          <li><a href="#">Digital Rights</a></li>
+          <li><a href="#">Help Center</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>For Creators</h5>
+        <ul>
+          <li><a href="#">Submit Your Content</a></li>
+          <li><a href="#">Partner With Us</a></li>
+          <li><a href="#">Advertise</a></li>
+          <li><a href="#">Careers</a></li>
         </ul>
       </div>
     </div>
-    <div class="copy">© 2025 CineNest | Made for Indian Cinema Lovers | All Rights Reserved</div>
+    <div class="copy">© 2025 Cinenest. All rights reserved. | Made for Indian Cinema Lovers • 100% Legal Content</div>
   </footer>
 
   <script src="app.js"></script>
 </body>
-</html>
+        </html>
