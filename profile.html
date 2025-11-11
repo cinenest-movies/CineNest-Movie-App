@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Profile — CineNest</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <span class="logo">CINENEST</span>
+      <span class="logo-tag">Your Profile</span>
+    </div>
+    <div class="nav-right">
+      <a href="index.html" class="btn ghost">Home</a>
+      <button id="logoutBtn" class="btn primary">Logout</button>
+    </div>
+  </header>
+
+  <main class="container" style="max-width:600px;margin:30px auto">
+    <section class="grid-section">
+      <h2>User Information</h2>
+      <div class="card-body">
+        <div class="card-title">Name: <span id="userName">Guest</span></div>
+        <div class="card-meta">Email: <span id="userEmail">Not logged in</span></div>
+      </div>
+    </section>
+
+    <section class="grid-section">
+      <h2>My Watchlist</h2>
+      <div id="watchlistGrid" class="grid"></div>
+      <div id="watchlistEmpty" class="status empty">Your watchlist is empty.</div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="copy">© 2025 CineNest | Personalized Profile</div>
+  </footer>
+
+  <script>
+    // Load user info
+    const userEmail = localStorage.getItem('cinenest_user');
+    const userName = localStorage.getItem('cinenest_name') || 'Guest';
+
+    document.getElementById('userEmail').textContent = userEmail || 'Not logged in';
+    document.getElementById('userName').textContent = userName;
+
+    // Watchlist (stored in localStorage)
+    const watchlist = JSON.parse(localStorage.getItem('cinenest_watchlist') || '[]');
+    const grid = document.getElementById('watchlistGrid');
+    const empty = document.getElementById('watchlistEmpty');
+
+    if (watchlist.length > 0) {
+      empty.hidden = true;
+      watchlist.forEach(m => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img class="thumb" src="${m.poster}" alt="${m.title}" />
+          <div class="card-body">
+            <div class="card-title">${m.title}</div>
+            <div class="card-meta">Year: ${m.year}</div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('cinenest_user');
+      localStorage.removeItem('cinenest_name');
+      alert('Logged out successfully');
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
