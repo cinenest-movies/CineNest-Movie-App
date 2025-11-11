@@ -1,47 +1,36 @@
+<!-- admin.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CineNest Admin — Restricted Access</title>
+  <title>CineNest Admin — Restricted</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="header">
-    <div class="brand">
-      <span class="logo">CineNest Admin</span>
-      <span class="tagline">Restricted — Owner Access Only</span>
-    </div>
+  <header class="site-header">
+    <div class="brand"><span class="logo">CINENEST Admin</span></div>
   </header>
 
   <main class="container">
-    <section class="search-panel">
-      <div class="status">
-        👑 Welcome Mukesh!  
-        Ye admin panel sirf tumhare Gmail se login hone par visible hota hai.  
-        Abhi ye **Phase 1 placeholder** hai — future me yahan se tum affiliate links aur revenue manage kar paoge.
-      </div>
+    <section class="about">
+      <h3>Admin Dashboard</h3>
+      <p>Manage affiliate links, featured content, and promotions. (Phase 2: secure backend & analytics)</p>
     </section>
 
     <section class="grid-section">
-      <h2>Affiliate Links Management (Coming Soon)</h2>
-      <div class="empty">
-        Yahan tum YouTube, Prime, Hotstar, Netflix ke deep links add/edit kar paoge.  
-        Ye feature Phase 2 me secure backend ke saath activate hoga.
-      </div>
-    </section>
-
-    <section class="grid-section">
-      <h2>Revenue & Analytics (Coming Soon)</h2>
-      <div class="empty">
-        Yahan tum apne earnings, clicks aur top content track kar paoge.  
-        Ye bhi Phase 2 me integrate hoga.
-      </div>
+      <h2>Quick Actions</h2>
+      <div class="status empty">Coming soon: Add deep links for YouTube, Prime, Hotstar, Netflix.</div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="copy">© 2025 CineNest — Admin Panel</div>
-  </footer>
+  <script>
+    const ADMIN_EMAIL = 'mukeshkumarabc78@gmail.com';
+    const user = (localStorage.getItem('cinenest_user')||'').toLowerCase();
+    if(user !== ADMIN_EMAIL.toLowerCase()){
+      alert('Admin access only. Redirecting.');
+      window.location.href = 'index.html';
+    }
+  </script>
 </body>
 </html>
